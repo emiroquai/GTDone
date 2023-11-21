@@ -40,6 +40,7 @@ ul {
 .list-name {
     margin-left: 5px;
     cursor: pointer;
+    margin-bottom: 7px;
 }
 
 button {
@@ -50,4 +51,14 @@ button {
 
 .i-s {
     margin: 0px 1px;
+}
+
+#add-project {
+    border: solid 0px;
+    border-radius: 5px;
+}
+
+#add-project:hover {
+    background-color: rgb(100, 100, 100);
+    transition: 0.3s;
 }
