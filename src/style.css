@@ -20,6 +20,7 @@ body {
 
 main {
     background-color: rgb(40, 40, 40);
+    display: grid;
 }
 
 ul {
@@ -47,6 +48,8 @@ button {
     background: none;
     border: none;
     cursor: pointer;
+    border: solid 0px;
+    border-radius: 5px;
 }
 
 .i-s {
@@ -61,4 +64,15 @@ button {
 #add-project:hover {
     background-color: rgb(100, 100, 100);
     transition: 0.3s;
+}
+
+#add-task {
+    position: sticky;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgb(252, 39, 18)	;
+    width: 40px;
+    height: 40px;
+    justify-self: end;
+    align-self: end;
 }
