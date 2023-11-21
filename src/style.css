@@ -15,11 +15,39 @@ body {
 .sidebar {
     background-color: rgb(60, 60, 60);
     height: 100vh;
-    padding-left: 15px;
+    padding: 0 15px;
+}
+
+main {
+    background-color: rgb(40, 40, 40);
 }
 
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+.list-title {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.list-name {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.i-s {
+    margin: 0px 1px;
 }
