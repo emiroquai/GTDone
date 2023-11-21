@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+    color: whitesmoke;
+    font-family: 'PT Sans', sans-serif;
+}
+body {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 170px auto;
+}
+
+.sidebar {
+    background-color: rgb(60, 60, 60);
+    height: 100vh;
+    padding-left: 15px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}

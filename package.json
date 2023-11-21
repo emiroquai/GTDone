@@ -1,0 +1,25 @@
+{
+  "name": "gtdone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emiroquai/GTDone.git"
+  },
+  "author": "Emiroquai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emiroquai/GTDone/issues"
+  },
+  "homepage": "https://github.com/emiroquai/GTDone#readme",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
