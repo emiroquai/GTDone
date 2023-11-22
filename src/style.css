@@ -73,14 +73,19 @@ i {
     margin: 0;
 }
 
-#btn-add-list {
+.btn-add-list {
     border: solid 0px;
     border-radius: 5px;
     height: 23px;
     width: 23px;
 }
 
-#btn-add-list:hover {
+.btn-add-list:hover, .btn-add-task:hover {
+    background-color: var(--higlighted-color);
+    transition: 0.3s;
+}
+
+.list-name:hover {
     background-color: var(--higlighted-color);
     transition: 0.3s;
 }
@@ -95,10 +100,16 @@ i {
     transition: 0.3s;
 }
 
-#add-task {
+.btn-arr {
     position: fixed;
     bottom: 10px;
     right: 10px;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 10px;
+}
+
+#add-task, #clr-done {
     background-color: var(--red)	;
     width: 40px;
     height: 40px;
@@ -156,4 +167,8 @@ input {
 
 #prj-title {
     max-width: 80%;
+}
+
+.tsk-done {
+    text-decoration: line-through;
 }

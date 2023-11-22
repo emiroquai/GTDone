@@ -19,7 +19,7 @@
     <div id="lists">
         <h3 class="list-title">
           Lists
-            <button id="btn-add-list"><i class="fa-solid fa-plus i-button" style="color: #0061ff;"></i></button>
+            <button class="btn-add-list"><i class="fa-solid fa-plus i-button" style="color: #0061ff;"></i></button>
         </h3>
         <ul class="lists-list">
           <li class="list-name"><i class="fa-regular fa-folder" style="color: #0061ff;"></i> List1</li>
@@ -31,8 +31,7 @@
             id="prj-title"
             placeholder="New list"
           >
-            
-            <button id="btn-add-list"><i class="fa-solid fa-plus i-button" style="color: #0061ff;"></i></button>
+            <button class="btn-add-list"><i class="fa-solid fa-plus i-button" style="color: #0061ff;"></i></button>
         </form>
     </div>
 </div>
@@ -42,8 +41,8 @@
     <ul class="task-list">
       <li class="task">
         <i class="fa-regular fa-square checkbox red"></i>Task 1</li>
-      <li class="task">
-        <i class="fa-regular fa-square checkbox" style="color: #ffffff;"></i>Task 2</li>
+      <li class="task tsk-done">
+        <i class="fa-solid fa-square-check" style="color: #ff4013;"></i>Task 2</li>
       <li class="task">
         <i class="fa-regular fa-square checkbox" style="color: #ffffff;"></i>Task 3</li>
       <li class="task">
@@ -59,7 +58,10 @@
         <button id="btn-add-task"><i class="fa-solid fa-plus i-button" style="color: #ff4013;"></i></button>
     </form>
   </div>
-  <button id="add-task"><i class="fa-solid fa-plus fa-xl i-button" style="color: rgb(40, 40, 40);"></i></button>
+
+  <div class="btn-arr">
+    <button id="clr-done"><i class="fa-solid fa-recycle fa-xl i-button" style="color: rgb(40, 40, 40);"></i></button>
+    <button id="add-task"><i class="fa-solid fa-plus fa-xl i-button" style="color: rgb(40, 40, 40);"></i></button></div>
 </main>
 </body>
 <script src="https://kit.fontawesome.com/3d23fc4332.js" crossorigin="anonymous"></script>
