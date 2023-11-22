@@ -90,8 +90,13 @@ i {
     transition: 0.3s;
 }
 
-#btn-add-list:active {
-    rotate: 45deg;
+/* #btn-add-list-disp:active {
+    transform: rotate(45deg);
+    transition: 0.3s;
+} */
+
+.btn-rotated {
+    transform: rotate(45deg);
     transition: 0.3s;
 }
 

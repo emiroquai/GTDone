@@ -25,12 +25,14 @@ function ScreenController () {
     const addListForm = document.getElementById('form-add-list') 
     
     addListBtnDisp.addEventListener('click', function() {
+        // Rotate button
+        addListBtnDisp.classList.toggle("btn-rotated");
         // Toggle the form's visibility
-    if (addListForm.style.display === "none" || addListForm.style.display === "") {
-        addListForm.style.display = "flex"; // Show the form
-    } else {
-        addListForm.style.display = "none"; // Hide the form
-    }
+        if (addListForm.style.display === "none" || addListForm.style.display === "") {
+            addListForm.style.display = "flex"; // Show the form
+        } else {
+            addListForm.style.display = "none"; // Hide the form
+        }
     });
 };
 
