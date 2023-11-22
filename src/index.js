@@ -23,17 +23,33 @@ const TodoManager = (() => {
 function ScreenController () {
     const addListBtnDisp = document.getElementById('btn-add-list-disp')
     const addListForm = document.getElementById('form-add-list') 
+    const addTaskBtnDisp = document.getElementById('btn-add-task-disp')
+    const addTaskForm = document.getElementById('form-add-task')
     
-    addListBtnDisp.addEventListener('click', function() {
-        // Rotate button
-        addListBtnDisp.classList.toggle("btn-rotated");
+    function toggleForm(form) {
         // Toggle the form's visibility
-        if (addListForm.style.display === "none" || addListForm.style.display === "") {
-            addListForm.style.display = "flex"; // Show the form
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "flex"; // Show the form
         } else {
-            addListForm.style.display = "none"; // Hide the form
+            form.style.display = "none"; // Hide the form
         }
+    }
+
+    function rotateBtn(button) {
+         // Rotate button
+         button.classList.toggle("btn-rotated");
+    }
+
+    addListBtnDisp.addEventListener('click', function() {
+        rotateBtn(addListBtnDisp);
+        toggleForm(addListForm);
     });
+
+    addTaskBtnDisp.addEventListener('click', function() {
+        rotateBtn(addTaskBtnDisp);
+        toggleForm(addTaskForm);
+    });
+
 };
 
 ScreenController();

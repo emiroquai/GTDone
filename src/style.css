@@ -90,14 +90,8 @@ i {
     transition: 0.3s;
 }
 
-/* #btn-add-list-disp:active {
-    transform: rotate(45deg);
-    transition: 0.3s;
-} */
-
 .btn-rotated {
     transform: rotate(45deg);
-    transition: 0.3s;
 }
 
 .task:hover {
@@ -114,10 +108,11 @@ i {
     gap: 10px;
 }
 
-#add-task, #clr-done {
+#btn-add-task-disp, #clr-done {
     background-color: var(--red)	;
     width: 40px;
     height: 40px;
+    transition: 0.3s;
 }
 
 .task-list {
@@ -130,7 +125,7 @@ i {
     width: 80%;
 }
 
-.task, .form-add-task {
+.task, #form-add-task {
     margin-bottom: 10px;
     border-bottom: 1px solid var(--higlighted-color);
     padding: 5px;
@@ -151,8 +146,8 @@ i {
     align-items: baseline;
 }
 
-.form-add-task {
-    display: flex;
+#form-add-task {
+    display: none;
 }
 
 #tsk-title {
