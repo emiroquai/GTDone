@@ -3,6 +3,12 @@
 :root {
     color: whitesmoke;
     font-family: 'PT Sans', sans-serif;
+
+    --higlighted-color: rgb(100, 100, 100);
+    --background-color-dark: rgb(40, 40, 40);
+    --background-color-light: rgb(60, 60, 60);
+    --border-radius: 5px;
+    --red: #ff4013;
 }
 body {
     margin: 0;
@@ -13,13 +19,13 @@ body {
 }
 
 .sidebar {
-    background-color: rgb(60, 60, 60);
+    background-color: var(--background-color-light);
     height: 100vh;
     padding: 0 15px;
 }
 
 main {
-    background-color: rgb(40, 40, 40);
+    background-color: var(--background-color-dark);
     display: grid;
 }
 
@@ -42,9 +48,12 @@ ul {
     margin-left: 5px;
     cursor: pointer;
     margin-bottom: 7px;
+    padding: 3px;
+    border: 0px solid;
+    border-radius: var(--border-radius);
 }
 
-button {
+button, .checkbox {
     background: none;
     border: none;
     cursor: pointer;
@@ -52,8 +61,16 @@ button {
     border-radius: 5px;
 }
 
+i {
+    margin-right: 5px;
+}
+
 .i-s {
-    margin: 0px 1px;
+    margin: 0px 6px 0px 1px;
+}
+
+.i-button{
+    margin: 0;
 }
 
 #add-project {
@@ -62,21 +79,45 @@ button {
 }
 
 #add-project:hover {
-    background-color: rgb(100, 100, 100);
+    background-color: var(--higlighted-color);
+    transition: 0.3s;
+}
+
+.task:hover {
+    background-color: var(--higlighted-color);
     transition: 0.3s;
 }
 
 #add-task {
-    position: sticky;
+    position: fixed;
     bottom: 10px;
     right: 10px;
     background-color: rgb(252, 39, 18)	;
     width: 40px;
     height: 40px;
-    justify-self: end;
-    align-self: end;
 }
 
 .task-list {
-    margin: 20px 20px;
+    padding: 5px;
+}
+
+.task-list-field {
+    margin: 0px 20px;
+    padding: 30px 0px; 
+    width: 80%;
+}
+
+.task {
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--higlighted-color);
+    padding: 5px;
+    border-radius: var(--border-radius);
+}
+
+.selected {
+    background-color: var(--higlighted-color);
+}
+
+.red {
+    color: var(--red);
 }
