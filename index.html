@@ -8,23 +8,28 @@
 <body>
 <div class="sidebar">
     <h2><i class="fa-solid fa-square-check fa-lg" style="color: #ff4013;"></i> GTDone</h2>
-    <div id="base-lists">
-      <div class="list-name">
-        <i class="fa-solid fa-inbox" style="color: #0061ff;"></i> Inbox</div>
-      <div class="list-name">
-        <i class="fa-solid fa-calendar-day i-s" style="color: #00f900;"></i> Today</div>
-      <div class="list-name">
-        <i class="fa-regular fa-calendar-days i-s" style="color: #fecb3e;"></i> Upcoming</div>
-    </div>
+    <ul id="base-lists">
+      <li class="list-name">
+        <i class="fa-solid fa-inbox" style="color: #0061ff;"></i> Inbox</li>
+      <li class="list-name">
+        <i class="fa-solid fa-calendar-day i-s" style="color: #00f900;"></i> Today</li>
+      <li class="list-name">
+        <i class="fa-regular fa-calendar-days i-s" style="color: #fecb3e;"></i> Upcoming</li>
+      </ul>
     <div id="projects">
-        <div class="list-title">Projects
+        <h3 class="list-title">
+          Projects
             <button id="add-project"><i class="fa-solid fa-plus" style="color: #0061ff;"></i></button>
-        </div>
-        <div class="list-name"><i class="fa-regular fa-folder" style="color: #0061ff;"></i> Project1</div>
+        </h3>
+        <ul class="projects-list">
+          <li class="list-name"><i class="fa-regular fa-folder" style="color: #0061ff;"></i> Project1</li>
+        </ul>
     </div>
 </div>
 <main>
-  <div class="content">Inbox</div>
+  <div class="task-list">
+    <div class="list-name">Inbox</div> 
+  </div>
   <button id="add-task"><i class="fa-solid fa-plus fa-xl" style="color: rgb(40, 40, 40);"></i></button>
 </main>
 </body>
