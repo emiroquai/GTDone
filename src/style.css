@@ -76,3 +76,7 @@ button {
     justify-self: end;
     align-self: end;
 }
+
+.task-list {
+    margin: 20px 20px;
+}
