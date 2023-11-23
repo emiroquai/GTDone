@@ -2,22 +2,46 @@ import './style.css';
 
 //todo management module
 const TodoManager = (() => {
-    const todos = []
-    const getTodos = () => todos;
     
     //todo factory
     function Todo (title, description, dueDate, priority) {
-        return {title, description, dueDate, priority}
+        this.title = title
+        this.description = description
+        this.dueDate = dueDate
+        this.priority = priority
     }
-    const userLists = [{
+
+    const lists = [{
+        // Base Lists
+        id: 'Inbox',
+        title: 'Inbox',
+        tasks: [{
+            title: 'Do Laundry',
+            description: "Don't be lazy",
+            dueDate: new Date(2023, 10, 23),
+            priority: 'normal'
+        }]
+    }, {
+        id: 'Today',
+        title: 'Today',
+        tasks: []
+    } ,{
+        id: 'Upcoming',
+        title: 'Upcoming',
+        tasks: []
+    } ,
+        // User Lists
+    {
         id: 1,
-        title: 'Home'
+        title: 'Home',
+        tasks: []
     } , {
         id: 2,
-        title: 'Work'
+        title: 'Work',
+        tasks: []
     }]
     
-    const getLists = () => userLists;
+    const getLists = () => lists;
 
     // List factory
     function List(title) {
@@ -27,7 +51,6 @@ const TodoManager = (() => {
     }
 
     return {
-        getTodos,
         getLists,
         Todo,
         List,
@@ -41,7 +64,7 @@ function ScreenController () {
     const addListFormInput = document.getElementById('new-list-title')
     const addTaskBtnDisp = document.getElementById('btn-add-task-disp')
     const addTaskForm = document.getElementById('form-add-task')
-    const userLists = TodoManager.getLists()
+    const lists = TodoManager.getLists()
     const listsList = document.getElementById('lists-list')
     
     function toggleForm(form) {
@@ -73,9 +96,14 @@ function ScreenController () {
     }
 
     function render() {
-        // Render user created lists
+        // Render user lists
         clearElement(listsList);
-        userLists.forEach(list => {
+        lists.forEach(list => {
+            // Skip the base lists
+            if (list.id === 'Inbox' || list.id === 'Today' || list.id === 'Upcoming') {
+                return
+            }
+
             const listElement = document.createElement('li')
             listElement.classList.add('list-name')
             
@@ -98,8 +126,10 @@ function ScreenController () {
         const listTitle = addListFormInput.value
         const newList = new TodoManager.List(listTitle)
         addListFormInput.value = null
-        userLists.push(newList)
+        lists.push(newList)
         render()
+        rotateBtn(addListBtnDisp);
+        toggleForm(addListForm)
 
     })
 
