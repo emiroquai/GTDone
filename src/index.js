@@ -3,10 +3,10 @@ import './style.css';
 //todo management module
 const TodoManager = (() => {
     const todos = []
-    
-    const projects = ['Inbox']
-
     const getTodos = () => todos;
+    
+    const userLists = ['Home' , 'Work']
+    const getLists = () => userLists;
 
     //todo factory
     function Todo (title, description, dueDate, priority) {
@@ -15,6 +15,7 @@ const TodoManager = (() => {
 
     return {
         getTodos,
+        getLists,
         Todo
     }
 })();
@@ -50,6 +51,26 @@ function ScreenController () {
         toggleForm(addTaskForm);
     });
 
+    function render() {
+        const userLists = TodoManager.getLists()
+        const listsList = document.getElementById('lists-list')
+        userLists.forEach(list => {
+            const listElement = document.createElement('li')
+            listElement.classList.add('list-name')
+            
+            const iconElement = document.createElement("i");
+            iconElement.className = "fa-regular fa-folder";
+            iconElement.style.color = "#0061ff";
+            listElement.appendChild(iconElement)
+            
+            const textNode = document.createTextNode(list)
+            listElement.appendChild(textNode)
+            
+            listsList.appendChild(listElement)
+        });
+    }
+
+    render();
 };
 
 ScreenController();
