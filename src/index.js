@@ -9,6 +9,7 @@ const TodoManager = (() => {
         this.description = description
         this.dueDate = dueDate
         this.priority = priority
+        this.isDone = false
     }
 
     const lists = [{
@@ -19,8 +20,22 @@ const TodoManager = (() => {
             title: 'Do Laundry',
             description: "Don't be lazy",
             dueDate: new Date(2023, 10, 23),
-            priority: 'normal'
-        }]
+            priority: 'normal',
+            isDone: false
+        }, {
+            title: 'Start coding the todo app',
+            description: "Don't be lazy",
+            dueDate: new Date(2023, 10, 23),
+            priority: 'high',
+            isDone: true
+        }, {
+            title: 'Order new jeans',
+            description: "Don't be lazy",
+            dueDate: new Date(2023, 10, 23),
+            priority: 'high',
+            isDone: false
+        }],
+        isSelected: true
     }, {
         id: 'Today',
         title: 'Today',
@@ -48,6 +63,7 @@ const TodoManager = (() => {
         this.id = Date.now().toString()
         this.title = title
         this.tasks = []
+        this.isSelected = false
     }
 
     return {
@@ -96,14 +112,55 @@ function ScreenController () {
     }
 
     function render() {
-        // Render user lists
         clearElement(listsList);
         lists.forEach(list => {
-            // Skip the base lists
-            if (list.id === 'Inbox' || list.id === 'Today' || list.id === 'Upcoming') {
-                return
+           
+
+            // Render selected list
+            const taskWrapper = document.getElementById('task-list-field')
+            if(list.isSelected == true) {
+                
+                clearElement(taskWrapper);
+                const listTitle = document.createElement('h4')
+                listTitle.classList.add('list-name')
+                listTitle.innerHTML = list.title
+
+                const taskList = document.createElement('ul')
+                taskList.classList.add('task-list')
+
+                list.tasks.forEach(task => {
+                    const taskElement = document.createElement('li')
+                    taskElement.classList.add('task')
+
+                    const iconElement = document.createElement('i')
+                    if (task.isDone == true) {
+                        iconElement.className = "fa-solid fa-square-check red"
+                        taskElement.classList.add('tsk-done')
+                    } else {
+                        iconElement.className = "fa-regular fa-square checkbox"
+                        
+                        if (task.priority === 'high') {
+                            iconElement.classList.add("red")
+                        }
+                    }
+                    taskElement.appendChild(iconElement)
+
+                    const textNode = document.createTextNode(task.title)
+                    taskElement.appendChild(textNode)
+
+                    taskList.appendChild(taskElement)
+                })
+
+                taskWrapper.appendChild(listTitle)
+                taskWrapper.appendChild(taskList)
             }
 
+            
+            // Render user lists on the sidebar
+            // Skip the base lists
+           if (list.id === 'Inbox' || list.id === 'Today' || list.id === 'Upcoming') {
+               return
+           }
             const listElement = document.createElement('li')
             listElement.classList.add('list-name')
             
@@ -117,10 +174,11 @@ function ScreenController () {
             
             listsList.appendChild(listElement)
         });
+
         
     }
     
-    // New list
+    // Create new list
     addListForm.addEventListener('submit', e => {
         e.preventDefault()
         const listTitle = addListFormInput.value
