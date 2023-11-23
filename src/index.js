@@ -116,17 +116,17 @@ function ScreenController () {
         lists.forEach(list => {
            
 
-            // Render selected list
+            // Render selected list  
             const taskWrapper = document.getElementById('task-list-field')
+            const selectedListTitle = document.getElementById('selected-list-title')
+            const taskList = document.getElementById('task-list')
             if(list.isSelected == true) {
                 
-                clearElement(taskWrapper);
-                const listTitle = document.createElement('h4')
-                listTitle.classList.add('list-name')
-                listTitle.innerHTML = list.title
-
-                const taskList = document.createElement('ul')
-                taskList.classList.add('task-list')
+                
+                clearElement(selectedListTitle);
+                clearElement(taskList);
+                selectedListTitle.classList.add('list-name')
+                selectedListTitle.innerHTML = list.title
 
                 list.tasks.forEach(task => {
                     const taskElement = document.createElement('li')
@@ -150,9 +150,6 @@ function ScreenController () {
 
                     taskList.appendChild(taskElement)
                 })
-
-                taskWrapper.appendChild(listTitle)
-                taskWrapper.appendChild(taskList)
             }
 
             
