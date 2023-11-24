@@ -98,10 +98,7 @@ const TodoManager = (() => {
 
 //Screen Controller
 function ScreenController() {
-    const addListBtnDisp = document.getElementById('btn-add-list-disp')
-    const addListForm = document.getElementById('form-add-list') 
-    const addListFormInput = document.getElementById('new-list-title')
-    
+
     const lists = TodoManager.getLists()
     const listsWrapper = document.getElementById('lists-list')
     
@@ -189,41 +186,15 @@ function ScreenController() {
             })
             
     }
-    // Create new list
-    addListForm.addEventListener('submit', e => {
-        e.preventDefault()
-        const listTitle = addListFormInput.value
-        const newList = new TodoManager.List(listTitle)
-        addListFormInput.value = null
-        lists.push(newList)
-        rotateBtn(addListBtnDisp);
-        toggleForm(addListForm)
-        render()
-        clickHandlerBoard()
-     })
 
-    // Create new task
-    const addTaskBtnDisp = document.getElementById('btn-add-task-disp')
-    const addTaskForm = document.getElementById('form-add-task')
-    const addTaskFormInput = document.getElementById('tsk-title')
-    let selectedList = TodoManager.getSelectedList()
-    addTaskForm.addEventListener('submit', e => {
-        e.preventDefault()
-        const taskTitle = addTaskFormInput.value
-        const newTask = new TodoManager.Task(taskTitle)
-        addTaskFormInput.value = null
-        selectedList.tasks.push(newTask)
-        rotateBtn(addTaskBtnDisp);
-        toggleForm(addTaskForm)
-        render()
-        clickHandlerBoard()
-     })
-    
+   
+     const addListBtnDisp = document.getElementById('btn-add-list-disp') 
      addListBtnDisp.addEventListener('click', function() {
          rotateBtn(addListBtnDisp);
          toggleForm(addListForm);
      });
-     
+
+     const addTaskBtnDisp = document.getElementById('btn-add-task-disp')
      addTaskBtnDisp.addEventListener('click', function() {
          rotateBtn(addTaskBtnDisp);
          toggleForm(addTaskForm);
@@ -244,6 +215,38 @@ function ScreenController() {
             })
         })
     }
+
+     // Create new list
+    const addListForm = document.getElementById('form-add-list') 
+    const addListFormInput = document.getElementById('new-list-title')
+     addListForm.addEventListener('submit', e => {
+        e.preventDefault()
+        const listTitle = addListFormInput.value
+        const newList = new TodoManager.List(listTitle)
+        addListFormInput.value = null
+        lists.push(newList)
+        rotateBtn(addListBtnDisp);
+        toggleForm(addListForm)
+        render()
+        clickHandlerBoard()
+     })
+
+    // Create new task
+    const addTaskForm = document.getElementById('form-add-task')
+    const addTaskFormInput = document.getElementById('tsk-title')
+    addTaskForm.addEventListener('submit', e => {
+        let selectedList = TodoManager.getSelectedList()
+        e.preventDefault()
+        const taskTitle = addTaskFormInput.value
+        const newTask = new TodoManager.Task(taskTitle)
+        addTaskFormInput.value = null
+        console.log(selectedList)
+        selectedList.tasks.push(newTask)
+        rotateBtn(addTaskBtnDisp);
+        toggleForm(addTaskForm)
+        render()
+        clickHandlerBoard()
+     })
     render();
     clickHandlerBoard();
 };
