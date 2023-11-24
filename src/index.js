@@ -104,7 +104,7 @@ function ScreenController() {
     const addTaskBtnDisp = document.getElementById('btn-add-task-disp')
     const addTaskForm = document.getElementById('form-add-task')
     const lists = TodoManager.getLists()
-    const listsList = document.getElementById('lists-list')
+    const listsWrapper = document.getElementById('lists-list')
     
     function toggleForm(form) {
         // Toggle the form's visibility
@@ -125,12 +125,10 @@ function ScreenController() {
     }
     
     function render() {
-        
+        clearElement(listsWrapper);
 
-        clearElement(listsList);
-
+        // Render user lists on the sidebar
         lists.forEach(list => {  
-            // Render user lists on the sidebar
             // Skip the base lists
             if (list.id === 'Inbox' || list.id === 'Today' || list.id === 'Upcoming') {
                 return
@@ -147,79 +145,78 @@ function ScreenController() {
             const textNode = document.createTextNode(list.title)
             listElement.appendChild(textNode)
             
-            listsList.appendChild(listElement)
+            listsWrapper.appendChild(listElement)
             }
         });
-            
-        lists.forEach(list => {  
+        
+        let selectedList = TodoManager.getSelectedList()
+        
             // Render selected list  
             const selectedListTitle = document.getElementById('selected-list-title')
             const taskList = document.getElementById('task-list')
             let listTitles = document.querySelectorAll('li.list-name')
 
-            if (list.isSelected == true) {
-                // highlight selected list
-                const selectedListTitleSidebar = Array.from(listTitles).find(title => title.dataset.listId === list.id);
-                selectedListTitleSidebar.classList.add('selected');
-            
-                clearElement(selectedListTitle);
-                clearElement(taskList);
-                selectedListTitle.classList.add('list-name')
-                selectedListTitle.innerHTML = list.title
-                // Render tasks
-                list.tasks.forEach(task => {
-                    const taskElement = document.createElement('li')
-                    taskElement.classList.add('task')
+            // highlight selected list
+            const selectedListTitleSidebar = Array.from(listTitles).find(title => title.dataset.listId === selectedList.id);
+            selectedListTitleSidebar.classList.add('selected');
+        
+            clearElement(selectedListTitle);
+            clearElement(taskList);
+            selectedListTitle.classList.add('list-name')
+            selectedListTitle.innerHTML = selectedList.title
+
+            // Render tasks
+            selectedList.tasks.forEach(task => {
+                const taskElement = document.createElement('li')
+                taskElement.classList.add('task')
+                
+                const iconElement = document.createElement('i')
+                if (task.isDone == true) {
+                    iconElement.className = "fa-solid fa-square-check red"
+                    taskElement.classList.add('tsk-done')
+                } else {
+                    iconElement.className = "fa-regular fa-square checkbox"
                     
-                    const iconElement = document.createElement('i')
-                    if (task.isDone == true) {
-                        iconElement.className = "fa-solid fa-square-check red"
-                        taskElement.classList.add('tsk-done')
-                    } else {
-                        iconElement.className = "fa-regular fa-square checkbox"
-                        
-                        if (task.priority === 'high') {
-                            iconElement.classList.add("red")
-                        }
+                    if (task.priority === 'high') {
+                        iconElement.classList.add("red")
                     }
-                    taskElement.appendChild(iconElement)
-                    
-                    const textNode = document.createTextNode(task.title)
-                    taskElement.appendChild(textNode)
-                    
-                    taskList.appendChild(taskElement)
-                })
-            }
+                }
+                taskElement.appendChild(iconElement)
+                
+                const textNode = document.createTextNode(task.title)
+                taskElement.appendChild(textNode)
+                
+                taskList.appendChild(taskElement)
+            })
             
             
-        });
+            
+        
     }
+    // Create new list
+    addListForm.addEventListener('submit', e => {
+        e.preventDefault()
+        const listTitle = addListFormInput.value
+        const newList = new TodoManager.List(listTitle)
+        addListFormInput.value = null
+        lists.push(newList)
+        rotateBtn(addListBtnDisp);
+        toggleForm(addListForm)
+        render()
+        clickHandlerBoard()
+        console.log(TodoManager.getLists())
+     })
     
-    
+     addListBtnDisp.addEventListener('click', function() {
+         rotateBtn(addListBtnDisp);
+         toggleForm(addListForm);
+     });
+     
+     addTaskBtnDisp.addEventListener('click', function() {
+         rotateBtn(addTaskBtnDisp);
+         toggleForm(addTaskForm);
+     });
     function clickHandlerBoard() {
-        addListBtnDisp.addEventListener('click', function() {
-            rotateBtn(addListBtnDisp);
-            toggleForm(addListForm);
-        });
-        
-        addTaskBtnDisp.addEventListener('click', function() {
-            rotateBtn(addTaskBtnDisp);
-            toggleForm(addTaskForm);
-        });
-    
-        // Create new list
-        addListForm.addEventListener('submit', e => {
-            e.preventDefault()
-            const listTitle = addListFormInput.value
-            const newList = new TodoManager.List(listTitle)
-            addListFormInput.value = null
-            lists.push(newList)
-            render()
-            rotateBtn(addListBtnDisp);
-            toggleForm(addListForm)
-            clickHandlerBoard()
-         })
-        
          
          //  Switch lists
         let listTitles = document.querySelectorAll('li.list-name');
