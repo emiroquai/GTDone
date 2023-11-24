@@ -3,8 +3,8 @@ import './style.css';
 //todo management module
 const TodoManager = (() => {
     
-    //todo factory
-    function Todo (title, description, dueDate, priority) {
+    //Task factory
+    function Task (title, description, dueDate, priority) {
         this.title = title
         this.description = description
         this.dueDate = dueDate
@@ -91,7 +91,7 @@ const TodoManager = (() => {
         getLists,
         getSelectedList,
         selectList,
-        Todo,
+        Task,
         List,
     }
 })();
@@ -101,8 +101,7 @@ function ScreenController() {
     const addListBtnDisp = document.getElementById('btn-add-list-disp')
     const addListForm = document.getElementById('form-add-list') 
     const addListFormInput = document.getElementById('new-list-title')
-    const addTaskBtnDisp = document.getElementById('btn-add-task-disp')
-    const addTaskForm = document.getElementById('form-add-task')
+    
     const lists = TodoManager.getLists()
     const listsWrapper = document.getElementById('lists-list')
     
@@ -189,9 +188,6 @@ function ScreenController() {
                 taskList.appendChild(taskElement)
             })
             
-            
-            
-        
     }
     // Create new list
     addListForm.addEventListener('submit', e => {
@@ -204,7 +200,23 @@ function ScreenController() {
         toggleForm(addListForm)
         render()
         clickHandlerBoard()
-        console.log(TodoManager.getLists())
+     })
+
+    // Create new task
+    const addTaskBtnDisp = document.getElementById('btn-add-task-disp')
+    const addTaskForm = document.getElementById('form-add-task')
+    const addTaskFormInput = document.getElementById('tsk-title')
+    let selectedList = TodoManager.getSelectedList()
+    addTaskForm.addEventListener('submit', e => {
+        e.preventDefault()
+        const taskTitle = addTaskFormInput.value
+        const newTask = new TodoManager.Task(taskTitle)
+        addTaskFormInput.value = null
+        selectedList.tasks.push(newTask)
+        rotateBtn(addTaskBtnDisp);
+        toggleForm(addTaskForm)
+        render()
+        clickHandlerBoard()
      })
     
      addListBtnDisp.addEventListener('click', function() {
@@ -217,7 +229,6 @@ function ScreenController() {
          toggleForm(addTaskForm);
      });
     function clickHandlerBoard() {
-         
          //  Switch lists
         let listTitles = document.querySelectorAll('li.list-name');
         listTitles.forEach(list => {
@@ -232,7 +243,6 @@ function ScreenController() {
                 clickHandlerBoard()
             })
         })
-
     }
     render();
     clickHandlerBoard();
