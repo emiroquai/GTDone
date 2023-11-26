@@ -26,7 +26,7 @@
         </h3>
         <ul id="lists-list">
         </ul>
-        <form action="" id="form-add-list">
+        <form action="" id="form-add-list" autocomplete="off">
           <input 
             type="text"
             name="new-list-title" 
@@ -42,14 +42,32 @@
   <div id="task-list-field">
     <h4 id="selected-list-title" class="list-name">Inbox</h4> 
     <ul id="task-list" class="task-list"></ul>
-    <form action="" id="form-add-task">
-      <input 
-        type="text"
-        name="tsk-title" 
-        id="tsk-title"
-        placeholder="New task"
-      >
-        <button id="btn-add-task-act"><i class="fa-solid fa-plus i-button" style="color: #ff4013;"></i></button>
+    <form action="" id="form-add-task" autocomplete="off">
+      <div id="addTaskFrmLine1">
+        <input
+          type="text"
+          name="tsk-title"
+          id="tsk-title"
+          placeholder="New task"
+        >
+          <button id="btn-add-task-act"><i class="fa-solid fa-plus i-button" style="color: #ff4013;"></i></button>
+      </div>
+        
+        <div id="addTaskFrmLine2">
+          <div id="priorityWrapper">
+            <fieldset>
+              <legend>Priority</legend>
+              <label for="normalPriority">Normal
+                <input type="radio" name="priority" class="normal" value="normal" id="normalPriority" checked>
+                <i class="fa-solid fa-flag"></i>              
+              </label>
+              <label for="highPriority">High
+                <input type="radio" name="priority" class="high" value="high" id="highPriority">
+                <i class="fa-solid fa-flag"></i>              
+              </label>            </fieldset>
+          </div>
+
+        </div>
     </form>
   </div>
 
