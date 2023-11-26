@@ -293,28 +293,31 @@ function ScreenController() {
 
     // Create new task
     const addTaskForm = document.getElementById('form-add-task')
-    addTaskForm.addEventListener('submit', e => {
-        let selectedList = TaskManager.getSelectedList()
-        e.preventDefault()
-        const addTaskFormInput = document.getElementById('tsk-title')
-        const taskTitle = addTaskFormInput.value
-        const priority = document.querySelector('input[name="priority"]:checked').value;
-        const description = document.querySelector('input[name="description"]').value;
-        const dueDate = document.querySelector('input[name="dueDate"]').value;
-        const newTask = new TaskManager.Task(taskTitle, priority, description, dueDate)
-        console.log(newTask)
-        addTaskFormInput.value = null
-        selectedList.tasks.push(newTask)
-        // Clear form
-        document.querySelector('input[id="normalPriority"]').checked = true;
-        document.querySelector('input[name="description"]').value = '';
-        document.querySelector('input[name="dueDate"]').value = '';
+    const createTask = () => {
+        addTaskForm.addEventListener('submit', e => {
+            let selectedList = TaskManager.getSelectedList()
+            e.preventDefault()
+            const addTaskFormInput = document.getElementById('tsk-title')
+            const taskTitle = addTaskFormInput.value
+            const priority = document.querySelector('input[name="priority"]:checked').value;
+            const description = document.querySelector('input[name="description"]').value;
+            const dueDate = document.querySelector('input[name="dueDate"]').value;
+            const newTask = new TaskManager.Task(taskTitle, priority, description, dueDate)
+            console.log(newTask)
+            addTaskFormInput.value = null
+            selectedList.tasks.push(newTask)
+            // Clear form
+            document.querySelector('input[id="normalPriority"]').checked = true;
+            document.querySelector('input[name="description"]').value = '';
+            document.querySelector('input[name="dueDate"]').value = '';
 
-        rotateBtn(addTaskBtnDisp);
-        toggleForm(addTaskForm)
-        render()
-        clickHandlerBoard()
-     })
+            rotateBtn(addTaskBtnDisp);
+            toggleForm(addTaskForm)
+            render()
+            clickHandlerBoard()
+        })
+    }
+    createTask();
 
 
 
