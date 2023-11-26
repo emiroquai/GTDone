@@ -97,9 +97,14 @@ const TaskManager = (() => {
         lists[1].tasks = todayTasks
     }
 
-    const selectTodayTasks = () =>{
-        todayTasks = getTodayTasks()
-        selectedList = todayTasks
+    const updateUpcomingTasks = () => {
+        lists[2].tasks = []
+        let allTasks = getAllTasks()
+        let currentDate = new Date().toLocaleDateString()
+        let upcomingTasks = allTasks.filter(function(task) {
+            return task.dueDate > currentDate
+        })
+        lists[2].tasks = upcomingTasks
     }
 
     function selectList(listId) {
@@ -131,8 +136,8 @@ const TaskManager = (() => {
         getSelectedTasks,
         getAllTasks,
         updateTodayTasks,
+        updateUpcomingTasks,
         selectList,
-        selectTodayTasks,
         updateList,
         Task,
         List,
@@ -258,6 +263,7 @@ function ScreenController() {
             listTitles.forEach(list => {
                 list.addEventListener('click', function() {
                 TaskManager.updateTodayTasks()
+                TaskManager.updateUpcomingTasks()
                 // remove higlights on the sidebar
                 listTitles.forEach(title => {
                     title.classList.remove('selected')
