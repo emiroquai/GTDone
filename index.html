@@ -52,22 +52,29 @@
         >
           <button id="btn-add-task-act"><i class="fa-solid fa-plus i-button" style="color: #ff4013;"></i></button>
       </div>
-        
-        <div id="addTaskFrmLine2">
-          <div id="priorityWrapper">
-            <fieldset>
-              <legend>Priority</legend>
-              <label for="normalPriority">Normal
-                <input type="radio" name="priority" class="normal" value="normal" id="normalPriority" checked>
-                <i class="fa-solid fa-flag"></i>              
-              </label>
-              <label for="highPriority">High
-                <input type="radio" name="priority" class="high" value="high" id="highPriority">
-                <i class="fa-solid fa-flag"></i>              
-              </label>            </fieldset>
-          </div>
-
-        </div>
+      <input 
+      type="text" 
+      name="description" 
+      id="description"
+      placeholder="Description"
+      >
+      <div id="addTaskFrmLine2">
+        <fieldset>
+          <legend>Priority</legend>
+          <label for="normalPriority">Normal
+            <input type="radio" name="priority" class="normal" value="normal" id="normalPriority" checked>
+            <i class="fa-solid fa-flag"></i>              
+          </label>
+          <label for="highPriority">High
+            <input type="radio" name="priority" class="high" value="high" id="highPriority">
+            <i class="fa-solid fa-flag"></i>              
+          </label>           
+        </fieldset>
+        <fieldset>
+          <legend>Due Date</legend>
+          <input type="date" name="dueDate" id="dueDate">
+        </fieldset>
+      </div>
     </form>
   </div>
 
