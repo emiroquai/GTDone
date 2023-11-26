@@ -86,6 +86,14 @@ const TaskManager = (() => {
         selectedList = newList;
     }
 
+    const updateList = () => {
+        let selectedTasks = getSelectedTasks()
+        let filteredTasks = selectedTasks.filter(function(task) {
+            return task.isDone == false;
+        })
+        selectedList.tasks = filteredTasks
+    }
+
     // List factory
     function List(title) {
         this.id = Date.now().toString()
@@ -99,6 +107,7 @@ const TaskManager = (() => {
         getSelectedList,
         getSelectedTasks,
         selectList,
+        updateList,
         Task,
         List,
     }
@@ -254,6 +263,17 @@ function ScreenController() {
             })
         }
         toggleIsDone();
+
+        // Delete completed tasks
+        const deleteCompleted = () => {
+            const deleteButton = document.getElementById('clr-done')
+            deleteButton.addEventListener('click', function() {
+                TaskManager.updateList();
+                render();
+                clickHandlerBoard();
+            })
+        }
+        deleteCompleted();
     }
 
      // Create new list
