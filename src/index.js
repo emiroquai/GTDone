@@ -239,11 +239,17 @@ function ScreenController() {
         const addTaskFormInput = document.getElementById('tsk-title')
         const taskTitle = addTaskFormInput.value
         const priority = document.querySelector('input[name="priority"]:checked').value;
-        const newTask = new TaskManager.Task(taskTitle, priority)
+        const description = document.querySelector('input[name="description"]').value;
+        const dueDate = document.querySelector('input[name="dueDate"]').value;
+        const newTask = new TaskManager.Task(taskTitle, priority, description, dueDate)
         console.log(newTask)
         addTaskFormInput.value = null
         selectedList.tasks.push(newTask)
+        // Clear form
         document.querySelector('input[id="normalPriority"]').checked = true;
+        document.querySelector('input[name="description"]').value = '';
+        document.querySelector('input[name="dueDate"]').value = '';
+
         rotateBtn(addTaskBtnDisp);
         toggleForm(addTaskForm)
         render()
