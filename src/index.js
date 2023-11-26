@@ -21,26 +21,27 @@ const TaskManager = (() => {
             id: '1',
             title: 'Start coding the todo app',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 10, 23).toLocaleDateString(),
+            dueDate: new Date().toLocaleDateString(),
             priority: 'high',
             isDone: true
         }, {
             id: '2',
             title: 'Order new jeans',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 10, 23).toLocaleDateString(),
+            dueDate: new Date(2023, 11, 30).toLocaleDateString(),
             priority: 'high',
             isDone: false
         }],
         isSelected: true
-    }, {
+    }, 
+    {
         id: 'Today',
         title: 'Today',
         tasks: [{
             id: '1',
             title: 'Do Laundry',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 10, 23).toLocaleDateString(),
+            dueDate: new Date().toLocaleDateString(),
             priority: 'normal',
             isDone: false
         },],
@@ -59,7 +60,7 @@ const TaskManager = (() => {
             id: '1',
             title: 'Do Laundry',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 10, 23).toLocaleDateString(),
+            dueDate: new Date().toLocaleDateString(),
             priority: 'normal',
             isDone: false
         }],
@@ -78,6 +79,35 @@ const TaskManager = (() => {
     const getSelectedList = () => selectedList;
 
     const getSelectedTasks = () => selectedList.tasks;
+
+    const getAllTasks = () => {
+        let allTasksObjects = []
+        let allTasks = []
+        lists.forEach(list => {
+            allTasksObjects.push(list.tasks)    
+        })
+        allTasksObjects.forEach(tasks => {
+            for (let index = 0; index < tasks.length; index++) {
+                allTasks.push(tasks[index])
+            }
+        })
+        return allTasks
+    }
+
+    const getTodayTasks = () => {
+        let allTasks = getAllTasks()
+        let currentDate = new Date().toLocaleDateString()
+        let todayTasks = allTasks.filter(function(task) {
+            console.log(task.dueDate)
+            return task.dueDate === currentDate
+        })
+        return todayTasks
+    }
+
+    const selectTodayTasks = () =>{
+        todayTasks = getTodayTasks()
+        selectedList = todayTasks
+    }
 
     function selectList(listId) {
         selectedList.isSelected = false
@@ -106,7 +136,10 @@ const TaskManager = (() => {
         getLists,
         getSelectedList,
         getSelectedTasks,
+        getAllTasks,
+        getTodayTasks,
         selectList,
+        selectTodayTasks,
         updateList,
         Task,
         List,
