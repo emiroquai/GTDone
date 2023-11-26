@@ -131,6 +131,18 @@ i {
     border-radius: var(--border-radius);
 }
 
+p {
+    font-size: 0.9em;
+    /* color: var(--higlighted-color); */
+    margin: 0;
+    margin-left: 5px;
+    color: rgba(245, 245, 245, 0.5);
+}
+
+span {
+    color: whitesmoke;
+}
+
 .selected {
     background-color: var(--higlighted-color);
 }
@@ -210,6 +222,10 @@ input {
 input[name="description"],  input[name="dueDate"]{
     background-color: var(--background-color-dark);
     border: 0 solid var(--background-color-dark);
+}
+
+input[name="dueDate"] {
+    padding: 0;
 }
 
 #new-list-title {

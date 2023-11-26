@@ -5,9 +5,10 @@ const TaskManager = (() => {
     
     //Task factory
     function Task (title,priority, description, dueDate ) {
+        this.id = Date.now().toString()
         this.title = title
         this.description = description
-        this.dueDate = dueDate
+        this.dueDate = new Date(dueDate).toLocaleDateString()
         this.priority = priority
         this.isDone = false
     }
@@ -17,15 +18,17 @@ const TaskManager = (() => {
         id: 'Inbox',
         title: 'Inbox',
         tasks: [{
+            id: '1',
             title: 'Start coding the todo app',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 10, 23),
+            dueDate: new Date(2023, 10, 23).toLocaleDateString(),
             priority: 'high',
             isDone: true
         }, {
+            id: '2',
             title: 'Order new jeans',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 10, 23),
+            dueDate: new Date(2023, 10, 23).toLocaleDateString(),
             priority: 'high',
             isDone: false
         }],
@@ -34,9 +37,10 @@ const TaskManager = (() => {
         id: 'Today',
         title: 'Today',
         tasks: [{
+            id: '1',
             title: 'Do Laundry',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 10, 23),
+            dueDate: new Date(2023, 10, 23).toLocaleDateString(),
             priority: 'normal',
             isDone: false
         },],
@@ -52,9 +56,10 @@ const TaskManager = (() => {
         id: 'Home',
         title: 'Home',
         tasks: [{
+            id: '1',
             title: 'Do Laundry',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 10, 23),
+            dueDate: new Date(2023, 10, 23).toLocaleDateString(),
             priority: 'normal',
             isDone: false
         }],
@@ -71,6 +76,8 @@ const TaskManager = (() => {
     let selectedList = lists[0];
 
     const getSelectedList = () => selectedList;
+
+    const getSelectedTasks = () => selectedList.tasks;
 
     function selectList(listId) {
         selectedList.isSelected = false
@@ -90,6 +97,7 @@ const TaskManager = (() => {
     return {
         getLists,
         getSelectedList,
+        getSelectedTasks,
         selectList,
         Task,
         List,
@@ -102,8 +110,8 @@ function ScreenController() {
     const lists = TaskManager.getLists()
     const listsWrapper = document.getElementById('lists-list')
     
+    // Toggle the form's visibility
     function toggleForm(form) {
-        // Toggle the form's visibility
         if (form.style.display === "none" || form.style.display === "") {
             form.style.display = "flex"; // Show the form
         } else {
@@ -111,8 +119,8 @@ function ScreenController() {
         }
     }
     
+    // Rotate button
     function rotateBtn(button) {
-        // Rotate button
         button.classList.toggle("btn-rotated");
     }
     
@@ -165,10 +173,11 @@ function ScreenController() {
         selectedList.tasks.forEach(task => {
             const taskElement = document.createElement('li')
             taskElement.classList.add('task')
+            taskElement.setAttribute('data-task-id', task.id)
             
             const iconElement = document.createElement('i')
             if (task.isDone == true) {
-                iconElement.className = "fa-solid fa-square-check red"
+                iconElement.className = "fa-solid fa-square-check checkbox red"
                 taskElement.classList.add('tsk-done')
             } else {
                 iconElement.className = "fa-regular fa-square checkbox"
@@ -179,8 +188,15 @@ function ScreenController() {
             }
             taskElement.appendChild(iconElement)
             
-            const textNode = document.createTextNode(task.title)
-            taskElement.appendChild(textNode)
+            const taskTitle = document.createTextNode(task.title)
+            const line2 = document.createElement('p')
+            const dueDate = document.createElement('span')
+            const description = document.createTextNode(task.description)
+            dueDate.innerHTML = task.dueDate + ' '
+            taskElement.appendChild(taskTitle)
+            line2.appendChild(dueDate)
+            line2.appendChild(description)
+            taskElement.appendChild(line2)
             
             taskList.appendChild(taskElement)
         })
@@ -200,20 +216,44 @@ function ScreenController() {
      });
 
     function clickHandlerBoard() {
-         //  Switch lists
-        let listTitles = document.querySelectorAll('li.list-name');
-        listTitles.forEach(list => {
-            list.addEventListener('click', function() {
-            // remove higlights on the sidebar
-            listTitles.forEach(title => {
-                title.classList.remove('selected')
-        })
-                let selectedTitleId = list.dataset.listId
-                TaskManager.selectList(selectedTitleId);
-                render();
-                clickHandlerBoard()
+
+        //  Switch lists
+        const switchLists = () => { 
+            let listTitles = document.querySelectorAll('li.list-name');
+            listTitles.forEach(list => {
+                list.addEventListener('click', function() {
+                // remove higlights on the sidebar
+                listTitles.forEach(title => {
+                    title.classList.remove('selected')
             })
-        })
+                    let selectedTitleId = list.dataset.listId
+                    TaskManager.selectList(selectedTitleId);
+                    render();
+                    clickHandlerBoard()
+                })
+            })
+        }
+        switchLists();
+
+        // Mark tasks as done
+        const toggleIsDone = () => {
+            let checkboxes = document.querySelectorAll('i.checkbox')
+            checkboxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    const taskId = box.parentNode.getAttribute('data-task-id')
+                    const selectedTasks = TaskManager.getSelectedTasks()
+                    const selectedTask = selectedTasks.find(task => task.id === taskId);
+                    if (selectedTask.isDone == true) {
+                        selectedTask.isDone = false
+                    } else {
+                        selectedTask.isDone = true
+                    }
+                    render();
+                    clickHandlerBoard();
+                })
+            })
+        }
+        toggleIsDone();
     }
 
      // Create new list
@@ -255,6 +295,9 @@ function ScreenController() {
         render()
         clickHandlerBoard()
      })
+
+
+
     render();
     clickHandlerBoard();
 };
