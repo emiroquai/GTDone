@@ -147,6 +147,43 @@ i {
 
 #form-add-task {
     display: none;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid var(--higlighted-color);
+
+}
+
+label {
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+input[class="normal"]:hover + i,
+input[class="normal"]:checked + i,
+input[class="normal"]:focus + i {
+  color: whitesmoke;
+}
+
+input[class="high"]:hover + i,
+input[class="high"]:checked + i,
+input[class="high"]:focus + i {
+  color: var(--red);
+}
+
+#addTaskFrmLine1, #addTaskFrmLine2 {
+    display: flex;
+}
+
+fieldset {
+    color: var(--higlighted-color);
+    border: 1px solid var(--higlighted-color);
+    border-radius: var(--border-radius);
 }
 
 #tsk-title {

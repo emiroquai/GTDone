@@ -1,10 +1,10 @@
 import './style.css';
 
-//todo management module
-const TodoManager = (() => {
+//Task management module
+const TaskManager = (() => {
     
     //Task factory
-    function Task (title, description, dueDate, priority) {
+    function Task (title,priority, description, dueDate ) {
         this.title = title
         this.description = description
         this.dueDate = dueDate
@@ -99,7 +99,7 @@ const TodoManager = (() => {
 //Screen Controller
 function ScreenController() {
 
-    const lists = TodoManager.getLists()
+    const lists = TaskManager.getLists()
     const listsWrapper = document.getElementById('lists-list')
     
     function toggleForm(form) {
@@ -121,9 +121,9 @@ function ScreenController() {
     }
     
     function render() {
-        clearElement(listsWrapper);
 
         // Render user lists on the sidebar
+        clearElement(listsWrapper);
         lists.forEach(list => {  
             // Skip the base lists
             if (list.id === 'Inbox' || list.id === 'Today' || list.id === 'Upcoming') {
@@ -145,49 +145,48 @@ function ScreenController() {
             }
         });
         
-        let selectedList = TodoManager.getSelectedList()
+        let selectedList = TaskManager.getSelectedList()
         
-            // Render selected list  
-            const selectedListTitle = document.getElementById('selected-list-title')
-            const taskList = document.getElementById('task-list')
-            let listTitles = document.querySelectorAll('li.list-name')
+        // Render selected list  
+        const selectedListTitle = document.getElementById('selected-list-title')
+        const taskList = document.getElementById('task-list')
+        let listTitles = document.querySelectorAll('li.list-name')
 
-            // highlight selected list
-            const selectedListTitleSidebar = Array.from(listTitles).find(title => title.dataset.listId === selectedList.id);
-            selectedListTitleSidebar.classList.add('selected');
-        
-            clearElement(selectedListTitle);
-            clearElement(taskList);
-            selectedListTitle.classList.add('list-name')
-            selectedListTitle.innerHTML = selectedList.title
+        // highlight selected list
+        const selectedListTitleSidebar = Array.from(listTitles).find(title => title.dataset.listId === selectedList.id);
+        selectedListTitleSidebar.classList.add('selected');
+    
+        clearElement(selectedListTitle);
+        clearElement(taskList);
+        selectedListTitle.classList.add('list-name')
+        selectedListTitle.innerHTML = selectedList.title
 
-            // Render tasks
-            selectedList.tasks.forEach(task => {
-                const taskElement = document.createElement('li')
-                taskElement.classList.add('task')
+        // Render tasks
+        selectedList.tasks.forEach(task => {
+            const taskElement = document.createElement('li')
+            taskElement.classList.add('task')
+            
+            const iconElement = document.createElement('i')
+            if (task.isDone == true) {
+                iconElement.className = "fa-solid fa-square-check red"
+                taskElement.classList.add('tsk-done')
+            } else {
+                iconElement.className = "fa-regular fa-square checkbox"
                 
-                const iconElement = document.createElement('i')
-                if (task.isDone == true) {
-                    iconElement.className = "fa-solid fa-square-check red"
-                    taskElement.classList.add('tsk-done')
-                } else {
-                    iconElement.className = "fa-regular fa-square checkbox"
-                    
-                    if (task.priority === 'high') {
-                        iconElement.classList.add("red")
-                    }
+                if (task.priority === 'high') {
+                    iconElement.classList.add("red")
                 }
-                taskElement.appendChild(iconElement)
-                
-                const textNode = document.createTextNode(task.title)
-                taskElement.appendChild(textNode)
-                
-                taskList.appendChild(taskElement)
-            })
+            }
+            taskElement.appendChild(iconElement)
+            
+            const textNode = document.createTextNode(task.title)
+            taskElement.appendChild(textNode)
+            
+            taskList.appendChild(taskElement)
+        })
             
     }
 
-   
      const addListBtnDisp = document.getElementById('btn-add-list-disp') 
      addListBtnDisp.addEventListener('click', function() {
          rotateBtn(addListBtnDisp);
@@ -199,6 +198,7 @@ function ScreenController() {
          rotateBtn(addTaskBtnDisp);
          toggleForm(addTaskForm);
      });
+
     function clickHandlerBoard() {
          //  Switch lists
         let listTitles = document.querySelectorAll('li.list-name');
@@ -209,7 +209,7 @@ function ScreenController() {
                 title.classList.remove('selected')
         })
                 let selectedTitleId = list.dataset.listId
-                TodoManager.selectList(selectedTitleId);
+                TaskManager.selectList(selectedTitleId);
                 render();
                 clickHandlerBoard()
             })
@@ -219,10 +219,10 @@ function ScreenController() {
      // Create new list
     const addListForm = document.getElementById('form-add-list') 
     const addListFormInput = document.getElementById('new-list-title')
-     addListForm.addEventListener('submit', e => {
+    addListForm.addEventListener('submit', e => {
         e.preventDefault()
         const listTitle = addListFormInput.value
-        const newList = new TodoManager.List(listTitle)
+        const newList = new TaskManager.List(listTitle)
         addListFormInput.value = null
         lists.push(newList)
         rotateBtn(addListBtnDisp);
@@ -233,15 +233,17 @@ function ScreenController() {
 
     // Create new task
     const addTaskForm = document.getElementById('form-add-task')
-    const addTaskFormInput = document.getElementById('tsk-title')
     addTaskForm.addEventListener('submit', e => {
-        let selectedList = TodoManager.getSelectedList()
+        let selectedList = TaskManager.getSelectedList()
         e.preventDefault()
+        const addTaskFormInput = document.getElementById('tsk-title')
         const taskTitle = addTaskFormInput.value
-        const newTask = new TodoManager.Task(taskTitle)
+        const priority = document.querySelector('input[name="priority"]:checked').value;
+        const newTask = new TaskManager.Task(taskTitle, priority)
+        console.log(newTask)
         addTaskFormInput.value = null
-        console.log(selectedList)
         selectedList.tasks.push(newTask)
+        document.querySelector('input[id="normalPriority"]').checked = true;
         rotateBtn(addTaskBtnDisp);
         toggleForm(addTaskForm)
         render()
