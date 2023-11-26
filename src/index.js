@@ -8,7 +8,7 @@ const TaskManager = (() => {
         this.id = Date.now().toString()
         this.title = title
         this.description = description
-        this.dueDate = new Date(dueDate).toLocaleDateString()
+        this.dueDate = new Date(dueDate)
         this.priority = priority
         this.isDone = false
     }
@@ -21,14 +21,14 @@ const TaskManager = (() => {
             id: '1',
             title: 'Start coding the todo app',
             description: "Don't be lazy",
-            dueDate: new Date().toLocaleDateString(),
+            dueDate: new Date(),
             priority: 'high',
             isDone: true
         }, {
             id: '2',
             title: 'Order new jeans',
             description: "Don't be lazy",
-            dueDate: new Date(2023, 11, 30).toLocaleDateString(),
+            dueDate: new Date(2024, 11, 30),
             priority: 'high',
             isDone: false
         }],
@@ -53,7 +53,7 @@ const TaskManager = (() => {
             id: '1',
             title: 'Do Laundry',
             description: "Don't be lazy",
-            dueDate: new Date().toLocaleDateString(),
+            dueDate: new Date(),
             priority: 'normal',
             isDone: false
         }],
@@ -92,7 +92,7 @@ const TaskManager = (() => {
         let allTasks = getAllTasks()
         let currentDate = new Date().toLocaleDateString()
         let todayTasks = allTasks.filter(function(task) {
-            return task.dueDate === currentDate
+            return task.dueDate.toLocaleDateString() === currentDate
         })
         lists[1].tasks = todayTasks
     }
@@ -100,7 +100,7 @@ const TaskManager = (() => {
     const updateUpcomingTasks = () => {
         lists[2].tasks = []
         let allTasks = getAllTasks()
-        let currentDate = new Date().toLocaleDateString()
+        let currentDate = new Date()
         let upcomingTasks = allTasks.filter(function(task) {
             return task.dueDate > currentDate
         })
@@ -232,7 +232,7 @@ function ScreenController() {
             const line2 = document.createElement('p')
             const dueDate = document.createElement('span')
             const description = document.createTextNode(task.description)
-            dueDate.innerHTML = task.dueDate + ' '
+            dueDate.innerHTML = task.dueDate.toLocaleDateString() + ' '
             taskElement.appendChild(taskTitle)
             line2.appendChild(dueDate)
             line2.appendChild(description)
