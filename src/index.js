@@ -11,7 +11,7 @@ const TaskManager = (() => {
         if (dueDate != '') {
             this.dueDate = new Date(dueDate)
         } else {
-            this.dueDate = ''
+            this.dueDate = '0'
         }
         this.priority = priority
         this.isDone = false
@@ -102,8 +102,10 @@ const TaskManager = (() => {
         let allTasks = getAllTasks()
         let currentDate = new Date().toDateString()
         let todayTasks = allTasks.filter(function(task) {
-            return new Date(task.dueDate).toDateString() === currentDate
+            let taskDate = new Date(task.dueDate).toDateString()
+            return task.dueDate > '0' && taskDate <= currentDate
         })
+        console.log(todayTasks)
         lists[1].tasks = todayTasks
         save();
     }
@@ -301,9 +303,18 @@ function ScreenController() {
             const taskTitle = document.createTextNode(task.title)
             const line2 = document.createElement('p')
             const description = document.createTextNode(task.description)
-            if (task.dueDate != '') {
+            if (task.dueDate != 0) {
                 const dueDate = document.createElement('span')
                 const dueDateStr = new Date(task.dueDate).toLocaleDateString()
+                let currentDate = new Date().toDateString()
+                let dueDateStrComp = new Date(task.dueDate).toDateString()
+                if(dueDateStrComp === currentDate) {
+                    dueDate.classList.add("green")
+                } else if (dueDateStrComp < currentDate) {
+                    dueDate.classList.add("red")
+                } else if (dueDateStrComp > currentDate) {
+                    dueDate.classList.add("yellow")
+                }
                 dueDate.innerHTML = dueDateStr + ' '
                 line2.appendChild(dueDate)
             }

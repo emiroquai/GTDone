@@ -16,11 +16,11 @@ body {
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: 200px auto;
+    height: 100vh;
 }
 
 .sidebar {
     background-color: var(--background-color-light);
-    height: 100vh;
     padding: 0 15px;
 }
 
@@ -242,4 +242,12 @@ input[name="dueDate"] {
 .remove {
 position: absolute;
 left: 165px;
+}
+
+.yellow {
+    color: #fecb3e;
+}
+
+.green {
+    color: #00f900;
 }
