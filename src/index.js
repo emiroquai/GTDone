@@ -8,7 +8,11 @@ const TaskManager = (() => {
         this.id = Date.now().toString()
         this.title = title
         this.description = description
-        this.dueDate = new Date(dueDate)
+        if (dueDate != '') {
+            this.dueDate = new Date(dueDate) 
+        } else {
+            this.dueDate = ''
+        }
         this.priority = priority
         this.isDone = false
     }
@@ -130,6 +134,39 @@ const TaskManager = (() => {
         this.isSelected = false
     }
 
+    // Local Storage
+    function init() {
+        if (!localStorage.getItem("lists")) {
+            localStorage.setItem("lists", JSON.stringify(lists));
+            console.log(JSON.parse(localStorage.getItem("lists")))
+        } else {
+            return
+        }
+    }
+    init();
+
+    const listsStored = JSON.parse(localStorage.getItem("lists"))
+    
+    // Add List
+    const addList = () => {
+        const addListFormInput = document.getElementById('new-list-title')
+        const listTitle = addListFormInput.value
+        const newList = new List(listTitle)
+        lists.push(newList)        
+    }
+
+    // Add Task
+    const addTask = () => {
+        const addTaskFormInput = document.getElementById('tsk-title')
+        const taskTitle = addTaskFormInput.value
+        const priority = document.querySelector('input[name="priority"]:checked').value;
+        const description = document.querySelector('input[name="description"]').value;
+        const dueDate = document.querySelector('input[name="dueDate"]').value;
+        const newTask = new TaskManager.Task(taskTitle, priority, description, dueDate)
+        selectedList.tasks.push(newTask)
+    }
+    
+
     return {
         getLists,
         getSelectedList,
@@ -139,6 +176,8 @@ const TaskManager = (() => {
         updateUpcomingTasks,
         selectList,
         updateList,
+        addList,
+        addTask,
         Task,
         List,
     }
@@ -230,17 +269,19 @@ function ScreenController() {
             
             const taskTitle = document.createTextNode(task.title)
             const line2 = document.createElement('p')
-            const dueDate = document.createElement('span')
             const description = document.createTextNode(task.description)
-            dueDate.innerHTML = task.dueDate.toLocaleDateString() + ' '
+            if (task.dueDate != '') {
+                const dueDate = document.createElement('span')
+                dueDate.innerHTML = task.dueDate.toLocaleDateString() + ' '
+                line2.appendChild(dueDate)
+            }
             taskElement.appendChild(taskTitle)
-            line2.appendChild(dueDate)
             line2.appendChild(description)
             taskElement.appendChild(line2)
             
             taskList.appendChild(taskElement)
         })
-            
+        console.log(selectedList)    
     }
 
      const addListBtnDisp = document.getElementById('btn-add-list-disp') 
@@ -311,35 +352,27 @@ function ScreenController() {
 
      // Create new list
     const addListForm = document.getElementById('form-add-list') 
-    const addListFormInput = document.getElementById('new-list-title')
-    addListForm.addEventListener('submit', e => {
-        e.preventDefault()
-        const listTitle = addListFormInput.value
-        const newList = new TaskManager.List(listTitle)
-        addListFormInput.value = null
-        lists.push(newList)
-        rotateBtn(addListBtnDisp);
-        toggleForm(addListForm)
-        render()
-        clickHandlerBoard()
-     })
+    const createList = () => {
+        addListForm.addEventListener('submit', e => {
+            e.preventDefault()
+            TaskManager.addList();
+            document.getElementById('new-list-title').value = null
+            rotateBtn(addListBtnDisp);
+            toggleForm(addListForm)
+            render()
+            clickHandlerBoard()
+         })
+    }
+    createList()
 
     // Create new task
     const addTaskForm = document.getElementById('form-add-task')
     const createTask = () => {
         addTaskForm.addEventListener('submit', e => {
-            let selectedList = TaskManager.getSelectedList()
             e.preventDefault()
-            const addTaskFormInput = document.getElementById('tsk-title')
-            const taskTitle = addTaskFormInput.value
-            const priority = document.querySelector('input[name="priority"]:checked').value;
-            const description = document.querySelector('input[name="description"]').value;
-            const dueDate = document.querySelector('input[name="dueDate"]').value;
-            const newTask = new TaskManager.Task(taskTitle, priority, description, dueDate)
-            console.log(newTask)
-            addTaskFormInput.value = null
-            selectedList.tasks.push(newTask)
+            TaskManager.addTask();
             // Clear form
+            document.getElementById('tsk-title').value = null
             document.querySelector('input[id="normalPriority"]').checked = true;
             document.querySelector('input[name="description"]').value = '';
             document.querySelector('input[name="dueDate"]').value = '';
