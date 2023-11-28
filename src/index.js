@@ -18,10 +18,10 @@ const TaskManager = (() => {
     }
 
     // Default list
-    const task1 = new Task ('Add tasks to the list you choose', 'normal', 'Click the + button below to show the new task form', '')
+    const task1 = new Task ('Add tasks to the list you choose', 'normal', 'Click the + button below', '')
     const task2 = new Task ('Click the checkboxes to mark tasks as done', 'normal', 'Click the trash button below to delete completed tasks in the chosen list', '')
     task2.id = '2'
-    const task3 = new Task ('Create new lists', 'normal', 'Click the + button on the sidebar to show the new list form', '')
+    const task3 = new Task ('Create new lists', 'normal', 'Click the + button on the sidebar', '')
     task3.id = '3'
     const listsInit = [{
         // Base Lists
@@ -82,7 +82,11 @@ const TaskManager = (() => {
         let allTasksObjects = []
         let allTasks = []
         lists.forEach(list => {
-            allTasksObjects.push(list.tasks)    
+            if (list.id === 'Today' || list.id === 'Upcoming') {
+                return
+            } else {
+                allTasksObjects.push(list.tasks)    
+            }
         })
         allTasksObjects.forEach(tasks => {
             for (let index = 0; index < tasks.length; index++) {
@@ -128,6 +132,8 @@ const TaskManager = (() => {
             return task.isDone == false;
         })
         selectedList.tasks = filteredTasks
+        updateTodayTasks();
+        updateUpcomingTasks();
         save();
     }
 
