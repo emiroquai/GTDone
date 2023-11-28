@@ -377,7 +377,7 @@ function ScreenController() {
                     if (selectedTitleId === 'Today' || selectedTitleId === 'Upcoming') {
                         btnArr.style.display = 'none'
                     } else {
-                        btnArr.style.display = 'block'
+                        btnArr.style.display = 'grid'
                     }
                     render();
                     clickHandlerBoard()
