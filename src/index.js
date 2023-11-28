@@ -107,9 +107,10 @@ const TaskManager = (() => {
         let allTasks = getAllTasks()
         let currentDate = new Date()
         let upcomingTasks = allTasks.filter(function(task) {
-            return task.dueDate > currentDate
+            return new Date(task.dueDate) > currentDate
         })
         lists[2].tasks = upcomingTasks
+        save();
     }
 
     function selectList(listId) {
