@@ -18,14 +18,16 @@ const TaskManager = (() => {
     }
 
     // Default list
-    const task1 = new Task ('Add tasks to the list you choose', 'normal', 'Click the + button below to toggle the new task form', '')
-    const task2 = new Task ('Click the checkboxes to mark tasks as done', 'normal', 'Click again to mark as undone', '')
+    const task1 = new Task ('Add tasks to the list you choose', 'normal', 'Click the + button below to show the new task form', '')
+    const task2 = new Task ('Click the checkboxes to mark tasks as done', 'normal', 'Click the trash button below to delete completed tasks in the chosen list', '')
+    task2.id = '2'
+    const task3 = new Task ('Create new lists', 'normal', 'Click the + button on the sidebar to show the new list form', '')
+    task3.id = '3'
     const listsInit = [{
         // Base Lists
         id: 'Inbox',
         title: 'Inbox',
-        tasks: [task1,
-            task2],
+        tasks: [task3, task1, task2],
         isSelected: true
     }, 
     {
@@ -126,6 +128,7 @@ const TaskManager = (() => {
             return task.isDone == false;
         })
         selectedList.tasks = filteredTasks
+        save();
     }
 
     // List factory
@@ -156,6 +159,18 @@ const TaskManager = (() => {
         selectedList.tasks.push(newTask)
         localStorage.setItem("lists", JSON.stringify(lists))        
     }
+
+    // Mark task as done
+    const markTaskDone = (taskId) => {
+        let selectedTasks = getSelectedTasks()
+        const selectedTask = selectedTasks.find(task => task.id === taskId);
+        if (selectedTask.isDone == true) {
+            selectedTask.isDone = false
+        } else {
+            selectedTask.isDone = true
+        }
+        save();
+    }
     
 
     return {
@@ -169,6 +184,7 @@ const TaskManager = (() => {
         updateList,
         addList,
         addTask,
+        markTaskDone,
         Task,
         List,
     }
@@ -315,13 +331,7 @@ function ScreenController() {
             checkboxes.forEach(box => {
                 box.addEventListener('click', function() {
                     const taskId = box.parentNode.getAttribute('data-task-id')
-                    const selectedTasks = TaskManager.getSelectedTasks()
-                    const selectedTask = selectedTasks.find(task => task.id === taskId);
-                    if (selectedTask.isDone == true) {
-                        selectedTask.isDone = false
-                    } else {
-                        selectedTask.isDone = true
-                    }
+                    TaskManager.markTaskDone(taskId);
                     render();
                     clickHandlerBoard();
                 })
@@ -329,8 +339,8 @@ function ScreenController() {
         }
         toggleIsDone();
 
-        // Delete completed tasks
-        const deleteCompleted = () => {
+        // Clear completed tasks
+        const clearDone = () => {
             const deleteButton = document.getElementById('clr-done')
             deleteButton.addEventListener('click', function() {
                 TaskManager.updateList();
@@ -338,7 +348,7 @@ function ScreenController() {
                 clickHandlerBoard();
             })
         }
-        deleteCompleted();
+        clearDone();
     }
 
      // Create new list
