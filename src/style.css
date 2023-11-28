@@ -6,7 +6,7 @@
 
     --higlighted-color: rgb(100, 100, 100);
     --background-color-dark: rgb(40, 40, 40);
-    --background-color-light: rgb(60, 60, 60);
+    --background-color-light: #3c3c3c;
     --border-radius: 5px;
     --red: #ff4013;
 }
@@ -237,4 +237,9 @@ input[name="dueDate"] {
 
 .tsk-done {
     text-decoration: line-through;
+}
+
+.remove {
+position: absolute;
+left: 165px;
 }

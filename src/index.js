@@ -151,7 +151,16 @@ const TaskManager = (() => {
         const listTitle = addListFormInput.value
         const newList = new List(listTitle)
         lists.push(newList)
-        localStorage.setItem("lists", JSON.stringify(lists))        
+        save();
+    }
+
+    // Remove List
+    const removeList = (listId) => {
+        let updatedLists = lists.filter(function(list) {
+            return list.id != listId
+        })
+        lists = updatedLists
+        save()
     }
 
     // Add Task
@@ -163,7 +172,9 @@ const TaskManager = (() => {
         const dueDate = document.querySelector('input[name="dueDate"]').value;
         const newTask = new TaskManager.Task(taskTitle, priority, description, dueDate)
         selectedList.tasks.push(newTask)
-        localStorage.setItem("lists", JSON.stringify(lists))        
+        updateTodayTasks();
+        updateUpcomingTasks();
+        save();
     }
 
     // Mark task as done
@@ -189,6 +200,7 @@ const TaskManager = (() => {
         selectList,
         updateList,
         addList,
+        removeList,
         addTask,
         markTaskDone,
         Task,
@@ -200,7 +212,9 @@ const TaskManager = (() => {
 function ScreenController() {
 
     const listsWrapper = document.getElementById('lists-list')
-    
+    const selectedListTitle = document.getElementById('selected-list-title')
+    const taskList = document.getElementById('task-list')
+
     // Toggle the form's visibility
     function toggleForm(form) {
         if (form.style.display === "none" || form.style.display === "") {
@@ -238,8 +252,14 @@ function ScreenController() {
             iconElement.style.color = "#0061ff";
             listElement.appendChild(iconElement)
             
-            const textNode = document.createTextNode(list.title)
+            const textNode = document.createTextNode(list.title + ' ')
             listElement.appendChild(textNode)
+
+            const edit = document.createElement("i");
+            edit.className = "fa-regular fa-trash-can remove";
+            edit.style.color = "#3c3c3c";
+            edit.setAttribute('data-list-id', list.id)
+            listElement.appendChild(edit)
             
             listsWrapper.appendChild(listElement)
             }
@@ -248,8 +268,6 @@ function ScreenController() {
         let selectedList = TaskManager.getSelectedList()
         
         // Render selected list  
-        const selectedListTitle = document.getElementById('selected-list-title')
-        const taskList = document.getElementById('task-list')
         let listTitles = document.querySelectorAll('li.list-name')
 
         // highlight selected list
@@ -311,13 +329,25 @@ function ScreenController() {
 
     function clickHandlerBoard() {
 
+         // Remove List
+         const removeList = () => {
+            let removeListBtns = document.querySelectorAll('i.remove');
+            removeListBtns.forEach(button => {
+                button.addEventListener('click', function() {
+                TaskManager.removeList(button.dataset.listId)
+                clearElement(selectedListTitle);
+                clearElement(taskList);        
+                render()
+                clickHandlerBoard()
+            })
+            })
+        }
+        removeList()
         //  Switch lists
         const switchLists = () => { 
             let listTitles = document.querySelectorAll('li.list-name');
             listTitles.forEach(list => {
                 list.addEventListener('click', function() {
-                TaskManager.updateTodayTasks()
-                TaskManager.updateUpcomingTasks()
                 // remove higlights on the sidebar
                 listTitles.forEach(title => {
                     title.classList.remove('selected')
@@ -355,6 +385,9 @@ function ScreenController() {
             })
         }
         clearDone();
+
+        
+
     }
 
      // Create new list
@@ -371,6 +404,8 @@ function ScreenController() {
          })
     }
     createList()
+
+   
 
     // Create new task
     const addTaskForm = document.getElementById('form-add-task')
