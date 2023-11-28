@@ -23,11 +23,19 @@ const TaskManager = (() => {
     task2.id = '2'
     const task3 = new Task ('Create new lists', 'normal', 'Click the + button on the sidebar', '')
     task3.id = '3'
+    const task4 = new Task ('Go to today to see the tasks that are due today...', 'normal', '', new Date().toDateString())
+    task4.id = '4'
+    const task5 = new Task ('... and the ones overdue', 'high', '', new Date('2010-1-1').toDateString())
+    task5.id = '5'
+    const task6 = new Task ('Go to Upcoming to see the tasks planned for the future', 'normal', '', new Date('2033-1-1').toDateString())
+    task6.id = '6'
+
+
     const listsInit = [{
         // Base Lists
         id: 'Inbox',
         title: 'Inbox',
-        tasks: [task3, task1, task2],
+        tasks: [task3, task1, task2, task4, task5, task6],
         isSelected: true
     }, 
     {
@@ -100,15 +108,14 @@ const TaskManager = (() => {
         lists[1].tasks = []
         localStorage.setItem("lists", JSON.stringify(lists))        
         let allTasks = getAllTasks()
-        let currentDate = new Date().toDateString()
+        let currentDate = new Date()
         let todayTasks = allTasks.filter(function(task) {
-            let taskDate = new Date(task.dueDate).toDateString()
+            let taskDate = new Date(task.dueDate)
             return task.dueDate > '0' && taskDate <= currentDate
         })
-        console.log(todayTasks)
         lists[1].tasks = todayTasks
-        save();
     }
+    updateTodayTasks();
 
     const updateUpcomingTasks = () => {
         lists[2].tasks = []
@@ -120,6 +127,7 @@ const TaskManager = (() => {
         lists[2].tasks = upcomingTasks
         save();
     }
+    updateUpcomingTasks();
 
     function selectList(listId) {
         selectedList.isSelected = false
@@ -305,17 +313,17 @@ function ScreenController() {
             const description = document.createTextNode(task.description)
             if (task.dueDate != 0) {
                 const dueDate = document.createElement('span')
-                const dueDateStr = new Date(task.dueDate).toLocaleDateString()
-                let currentDate = new Date().toDateString()
+                const dueDateStr = new Date(task.dueDate)
+                let currentDate = new Date()
                 let dueDateStrComp = new Date(task.dueDate).toDateString()
-                if(dueDateStrComp === currentDate) {
+                if(dueDateStrComp === currentDate.toDateString()) {
                     dueDate.classList.add("green")
-                } else if (dueDateStrComp < currentDate) {
-                    dueDate.classList.add("red")
-                } else if (dueDateStrComp > currentDate) {
+                } else if (dueDateStr > currentDate) {
                     dueDate.classList.add("yellow")
+                } else if (dueDateStr < currentDate) {
+                    dueDate.classList.add("red")
                 }
-                dueDate.innerHTML = dueDateStr + ' '
+                dueDate.innerHTML = dueDateStr.toLocaleDateString() + ' '
                 line2.appendChild(dueDate)
             }
             taskElement.appendChild(taskTitle)
