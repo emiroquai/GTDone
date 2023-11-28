@@ -25,9 +25,9 @@ const TaskManager = (() => {
     task3.id = '3'
     const task4 = new Task ('Go to today to see the tasks that are due today...', 'normal', '', new Date().toDateString())
     task4.id = '4'
-    const task5 = new Task ('... and the ones overdue', 'high', '', new Date('2010-1-1').toDateString())
+    const task5 = new Task ('... and the ones overdue', 'high', '', new Date('2010-01-01'))
     task5.id = '5'
-    const task6 = new Task ('Go to Upcoming to see the tasks planned for the future', 'normal', '', new Date('2033-1-1').toDateString())
+    const task6 = new Task ('Go to Upcoming to see the tasks planned for the future', 'normal', '', new Date('2033-01-01'))
     task6.id = '6'
 
 
