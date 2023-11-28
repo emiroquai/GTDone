@@ -9,7 +9,7 @@ const TaskManager = (() => {
         this.title = title
         this.description = description
         if (dueDate != '') {
-            this.dueDate = new Date(dueDate) 
+            this.dueDate = new Date(dueDate)
         } else {
             this.dueDate = ''
         }
@@ -17,25 +17,15 @@ const TaskManager = (() => {
         this.isDone = false
     }
 
-    const lists = [{
+    // Default list
+    const task1 = new Task ('Add tasks to the list you choose', 'normal', 'Click the + button below to toggle the new task form', '')
+    const task2 = new Task ('Click the checkboxes to mark tasks as done', 'normal', 'Click again to mark as undone', '')
+    const listsInit = [{
         // Base Lists
         id: 'Inbox',
         title: 'Inbox',
-        tasks: [{
-            id: '1',
-            title: 'Start coding the todo app',
-            description: "Don't be lazy",
-            dueDate: new Date(),
-            priority: 'high',
-            isDone: true
-        }, {
-            id: '2',
-            title: 'Order new jeans',
-            description: "Don't be lazy",
-            dueDate: new Date(2024, 11, 30),
-            priority: 'high',
-            isDone: false
-        }],
+        tasks: [task1,
+            task2],
         isSelected: true
     }, 
     {
@@ -53,14 +43,7 @@ const TaskManager = (() => {
     {
         id: 'Home',
         title: 'Home',
-        tasks: [{
-            id: '1',
-            title: 'Do Laundry',
-            description: "Don't be lazy",
-            dueDate: new Date(),
-            priority: 'normal',
-            isDone: false
-        }],
+        tasks: [],
         isSelected: false
     } , {
         id: 'Work',
@@ -68,8 +51,24 @@ const TaskManager = (() => {
         tasks: [],
         isSelected: false
     }]
+
+     // Local Storage
+    function init() {
+        if (!localStorage.getItem("lists")) {
+            localStorage.setItem("lists", JSON.stringify(listsInit));
+        } else {
+            return
+        }
+    }
+    init();
+
+    function save() {
+        localStorage.setItem("lists", JSON.stringify(lists))        
+    }
+
+    let lists = JSON.parse(localStorage.getItem("lists"))
     
-    const getLists = () => listsStored;
+    const getLists = () => lists;
 
     let selectedList = lists[0];
 
@@ -93,12 +92,14 @@ const TaskManager = (() => {
 
     const updateTodayTasks = () => {
         lists[1].tasks = []
+        localStorage.setItem("lists", JSON.stringify(lists))        
         let allTasks = getAllTasks()
-        let currentDate = new Date().toLocaleDateString()
+        let currentDate = new Date().toDateString()
         let todayTasks = allTasks.filter(function(task) {
-            return task.dueDate.toLocaleDateString() === currentDate
+            return new Date(task.dueDate).toDateString() === currentDate
         })
         lists[1].tasks = todayTasks
+        save();
     }
 
     const updateUpcomingTasks = () => {
@@ -134,28 +135,13 @@ const TaskManager = (() => {
         this.isSelected = false
     }
 
-    // Local Storage
-    function init() {
-        if (!localStorage.getItem("lists")) {
-            localStorage.setItem("lists", JSON.stringify(lists));
-        } else {
-            return
-        }
-    }
-    init();
-
-    let listsStored = JSON.parse(localStorage.getItem("lists"))
-    
     // Add List
     const addList = () => {
         const addListFormInput = document.getElementById('new-list-title')
         const listTitle = addListFormInput.value
         const newList = new List(listTitle)
         lists.push(newList)
-        console.log(newList)
-        listsStored.push(newList)
-        console.log(listsStored)
-        localStorage.setItem("lists", JSON.stringify(listsStored))        
+        localStorage.setItem("lists", JSON.stringify(lists))        
     }
 
     // Add Task
@@ -167,6 +153,7 @@ const TaskManager = (() => {
         const dueDate = document.querySelector('input[name="dueDate"]').value;
         const newTask = new TaskManager.Task(taskTitle, priority, description, dueDate)
         selectedList.tasks.push(newTask)
+        localStorage.setItem("lists", JSON.stringify(lists))        
     }
     
 
@@ -189,7 +176,6 @@ const TaskManager = (() => {
 //Screen Controller
 function ScreenController() {
 
-    const lists = TaskManager.getLists()
     const listsWrapper = document.getElementById('lists-list')
     
     // Toggle the form's visibility
@@ -211,6 +197,7 @@ function ScreenController() {
     }
     
     function render() {
+        const lists = TaskManager.getLists()
 
         // Render user lists on the sidebar
         clearElement(listsWrapper);
@@ -275,7 +262,8 @@ function ScreenController() {
             const description = document.createTextNode(task.description)
             if (task.dueDate != '') {
                 const dueDate = document.createElement('span')
-                dueDate.innerHTML = task.dueDate.toLocaleDateString() + ' '
+                const dueDateStr = new Date(task.dueDate).toLocaleDateString()
+                dueDate.innerHTML = dueDateStr + ' '
                 line2.appendChild(dueDate)
             }
             taskElement.appendChild(taskTitle)
