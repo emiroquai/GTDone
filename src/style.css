@@ -51,6 +51,8 @@ ul {
     padding: 3px;
     border: 0px solid;
     border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
 }
 
 button, .checkbox {

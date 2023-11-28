@@ -19,7 +19,7 @@ const TaskManager = (() => {
 
     // Default list
     const task1 = new Task ('Add tasks to the list you choose', 'normal', 'Click the + button below', '')
-    const task2 = new Task ('Click the checkboxes to mark tasks as done', 'normal', 'Click the trash button below to delete completed tasks in the chosen list', '')
+    const task2 = new Task ('Click the checkboxes to mark tasks as done', 'normal', 'Click the trash button below to delete the completed tasks in the list', '')
     task2.id = '2'
     const task3 = new Task ('Create new lists', 'normal', 'Click the + button on the sidebar', '')
     task3.id = '3'
@@ -373,6 +373,12 @@ function ScreenController() {
             })
                     let selectedTitleId = list.dataset.listId
                     TaskManager.selectList(selectedTitleId);
+                    let btnArr = document.querySelector('div.btn-arr')
+                    if (selectedTitleId === 'Today' || selectedTitleId === 'Upcoming') {
+                        btnArr.style.display = 'none'
+                    } else {
+                        btnArr.style.display = 'block'
+                    }
                     render();
                     clickHandlerBoard()
                 })
