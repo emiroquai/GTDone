@@ -69,7 +69,7 @@ const TaskManager = (() => {
         isSelected: false
     }]
     
-    const getLists = () => lists;
+    const getLists = () => listsStored;
 
     let selectedList = lists[0];
 
@@ -138,21 +138,24 @@ const TaskManager = (() => {
     function init() {
         if (!localStorage.getItem("lists")) {
             localStorage.setItem("lists", JSON.stringify(lists));
-            console.log(JSON.parse(localStorage.getItem("lists")))
         } else {
             return
         }
     }
     init();
 
-    const listsStored = JSON.parse(localStorage.getItem("lists"))
+    let listsStored = JSON.parse(localStorage.getItem("lists"))
     
     // Add List
     const addList = () => {
         const addListFormInput = document.getElementById('new-list-title')
         const listTitle = addListFormInput.value
         const newList = new List(listTitle)
-        lists.push(newList)        
+        lists.push(newList)
+        console.log(newList)
+        listsStored.push(newList)
+        console.log(listsStored)
+        localStorage.setItem("lists", JSON.stringify(listsStored))        
     }
 
     // Add Task
@@ -281,7 +284,6 @@ function ScreenController() {
             
             taskList.appendChild(taskElement)
         })
-        console.log(selectedList)    
     }
 
      const addListBtnDisp = document.getElementById('btn-add-list-disp') 
