@@ -170,7 +170,10 @@ const TaskManager = (() => {
             return list.id != listId
         })
         lists = updatedLists
+        updateTodayTasks()
+        updateUpcomingTasks()
         save()
+        
     }
 
     // Add Task
