@@ -125,7 +125,7 @@ i {
 #task-list-field {
     margin: 0px 20px;
     padding: 30px 0px; 
-    width: 80%;
+    width: 90%;
     max-width: 750px;
     display: flex;
     flex-direction: column;
@@ -264,7 +264,7 @@ footer {
     font-size: 0.5rem;
 }
 #toggleSidebar {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
 }
 @media (max-width: 600px) {
