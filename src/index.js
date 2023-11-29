@@ -415,8 +415,21 @@ function ScreenController() {
         clearDone();
 
         
-
+        
     }
+    
+    // Toggle Sidebar
+    const sidebarBtn = document.getElementById('toggleSidebar')
+    const sidebar = document.querySelector('div.sidebar')
+    const toggleElement = (element) => {
+        if (element.style.display === "none" || element.style.display === "") {
+            element.style.display = "block"; // Show the element
+        } else {
+            element.style.display = "none"; // Hide the element
+        }
+        console.log('hello')
+    }
+    sidebarBtn.onclick = function(){toggleElement(sidebar)};
 
      // Create new list
     const addListForm = document.getElementById('form-add-list') 
