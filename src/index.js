@@ -260,8 +260,8 @@ function ScreenController() {
             listElement.classList.add('list-name')
             listElement.setAttribute('data-list-id', list.id)
             
-            const iconElement = document.createElement("i");
-            iconElement.className = "fa-regular fa-folder";
+            const iconElement = document.createElement("i")
+            iconElement.className = "fa-regular fa-folder"
             iconElement.style.color = "#0061ff";
             listElement.appendChild(iconElement)
             
@@ -269,8 +269,8 @@ function ScreenController() {
             listElement.appendChild(textNode)
 
             const edit = document.createElement("i");
-            edit.className = "fa-regular fa-trash-can remove";
-            edit.style.color = "#3c3c3c";
+            edit.className = "fa-regular fa-trash-can remove"
+            edit.style.color = "rgb(60, 60, 60)"
             edit.setAttribute('data-list-id', list.id)
             listElement.appendChild(edit)
             
